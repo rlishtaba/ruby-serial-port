@@ -1,0 +1,67 @@
+require "rake"
+require "bundler/gem_tasks"
+require 'rake/extensiontask'
+
+def gem_spec
+  @gem_spec ||= Gem::Specification.load('rs_232.gemspec')
+end
+
+Rake::ExtensionTask.new('rs_232', gem_spec) do |ext|
+  #ext.lib_dir = 'lib'
+    #ext.cross_compile = true
+    #ext.cross_platform = 'i386-mswin32-60'
+  if RUBY_PLATFORM =~ /mswin|mingw/
+    #RUBY_VERSION =~ /(\d+\.\d+)/
+    #ext.lib_dir = "lib/rs_2323/#{$1}"
+  else
+    #ext.cross_compile = true
+    #ext.cross_platform = ['i386-mingw32']
+    #ext.cross_config_options << "--disable-lookup"
+  end
+
+   ext.cross_compiling do |gem_spec|
+      gem_spec.post_install_message = "You installed the binary version of this gem!"
+   end
+end
+
+desc 'clean out build files'
+task :clean do
+  rm_rf File.expand_path('../tmp', __FILE__)
+end
+
+task :default => [:clean, :compile]
+
+desc 'code statistics'
+
+task :stats do
+
+  def count(glob)
+    Dir[glob].inject(0) do |count, fi|
+      next unless File.file?(fi)
+      count + File.read(fi).lines.to_a.length
+    end
+  end
+
+  rb_lines = count 'lib/**/*.rb'
+  c_lines  = count 'ext/**/*.{c,cpp,h,hpp}'
+
+  puts "Lines of Ruby: #{rb_lines}"
+  puts "Lines of C*:   #{c_lines}"
+end
+
+desc "reload"
+
+task :reload do
+    sh "rake clean"
+    sh "rake compile"
+    sh "rake clean"
+    system "ruby bin/env.rb"
+end
+
+desc "rebuild"
+
+task :rebuild do
+  sh "rake clean"
+  sh "rake compile"
+  sh "rake clean"
+end
