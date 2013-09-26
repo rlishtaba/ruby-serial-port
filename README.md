@@ -18,6 +18,8 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
+require "rs_232"
 
 class Serial
   attr_reader :interface
@@ -45,18 +47,18 @@ class Serial
    
 end  
 
-== Windows
+#== Windows
 
 @adapter = Serial.new("COM3") 
 
-== Linux 
+#== Linux
 
 @adapter = Serial.new("/dev/tty.usb00000")
 
-== Darwin
+#== Darwin
 
 @adapter = Serial.new("/dev/ttyACM0")  
-
+```
 
 
 ## Contributing
