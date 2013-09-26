@@ -55,7 +55,7 @@ class Serial
   # @param [String] bytes
   # @return [Int]
   #
-  def tx(bytes)
+  def write(bytes)
     @interface.write(bytes)
   end
 
@@ -94,13 +94,13 @@ class Serial
   #  +@interface.timeout+ = +timeout+
   #  +@interface.read( +count+ )+
   #
-  def rx(count, blocking = false)
-    array = []
-
+  def read(count, blocking = false)
+    array       = []
+    
     bytes_count = (count == -1) ? @interface.available? : count
-
+    
     if blocking
-      bytes = block_io_until(count, count)
+      bytes = read_io_until(count, count)
       array.push bytes if bytes
     else
       bytes_count.times do

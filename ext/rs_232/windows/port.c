@@ -8,9 +8,6 @@
 
 #include "port.h"
 
-/*
- * setDtr_sys impl ******************************************************************
- */
 
 VALUE setDtrIO(VALUE self, VALUE rb_int)
 {
@@ -27,9 +24,6 @@ VALUE setDtrIO(VALUE self, VALUE rb_int)
     return INT2FIX( EscapeCommFunction(port->fd, boolean == 1 ? SETDTR : CLRDTR) );
 }
 
-/*
- * setRts_sys impl ******************************************************************
- */
 
 VALUE setRtsIO(VALUE self, VALUE rb_int)
 {
@@ -45,10 +39,6 @@ VALUE setRtsIO(VALUE self, VALUE rb_int)
 
     return INT2FIX( EscapeCommFunction(port->fd, boolean == 1 ? SETRTS : CLRRTS) );
 }
-
-/*
- * lineStatus_sys impl ******************************************************************
- */
 
 
 VALUE lineStatusIO(VALUE self)
@@ -189,10 +179,6 @@ VALUE isClosedIO(VALUE self)
 }
 
 
-/*
- * flushIO impl ******************************************************************
- */
-
 VALUE flushIO(VALUE self)
 {
     PortDescriptor *port;
@@ -202,10 +188,6 @@ VALUE flushIO(VALUE self)
     return (INT2FIX(FlushFileBuffers(port->fd)));
 }
 
-
-/*
- *  bytesAvailableIO impl ************************************************
- */
 
 VALUE bytesAvailableIO(VALUE self)
 {

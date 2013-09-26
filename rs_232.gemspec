@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "cucumber", "~> 1.1.0"
   spec.add_development_dependency "rake-compiler"
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "serialport"
+
+  spec.post_install_message     = "You've installed the binary version of Rs-232 gem!"
 
 end

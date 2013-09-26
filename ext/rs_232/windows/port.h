@@ -1,5 +1,5 @@
 //
-//  port.h.h
+//  port.h
 //  rs-232
 //
 //  Created by Roman Lishtaba on 9/23/13.

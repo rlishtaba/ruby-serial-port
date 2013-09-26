@@ -4,7 +4,6 @@ module Adapter
 
   class Generic
     include MonitorMixin
-    include Interface
     include RsLogger
 
     attr_accessor :event
@@ -25,6 +24,7 @@ module Adapter
 
     def defer_reading
       @rxd = false
+      !reading_allowed?
     end
 
     def allow_reading
@@ -34,14 +34,14 @@ module Adapter
     def rx(int, blocking = false)
       byte = read(int, blocking)
       if byte
-        logger.debug "RX [#{byte.length}][#{@in.object_id}]: #{byte.inspect}"
+        logger.debug "RX [#{byte.length}]: #{byte.inspect}"
       end
       byte
     end
 
     def tx(bytes)
       int = write(bytes)
-      logger.debug "TX [#{int}][#{@out.object_id}]: #{bytes.inspect}"
+      logger.debug "TX [#{int}]: #{bytes.inspect}"
       int
     end
 

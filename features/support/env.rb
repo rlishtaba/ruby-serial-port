@@ -92,3 +92,9 @@ end
 def adapter
   @adapter ||= Adapter::Dev.new(serial_port)
 end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def transmit(string)
+  adpter.tx(string)
+end

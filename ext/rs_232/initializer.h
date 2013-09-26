@@ -1,5 +1,5 @@
 //
-//  shared.h
+//  initializer.h
 //  rs-232
 //
 //  Created by Roman Lishtaba on 9/20/13.

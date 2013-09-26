@@ -8,8 +8,6 @@
 
 #include "initializer.h"
 
-/// destructor method
-/// no direct Ruby usage
 static void destructor(PortDescriptor *port)
 {
     xfree(port);
@@ -234,6 +232,7 @@ void setStopBits(VALUE self, VALUE intStopBits)
     updateSettings(port);
 }
 
+
 VALUE getStopBits(VALUE self)
 {
 
@@ -282,9 +281,6 @@ void setFlowControl(VALUE self, VALUE intFlow)
     updateSettings(port);
 }
 
-/*
- *  getFlowControl impl **********************************************************
- */
 
 VALUE getFlowControl(VALUE self)
 {
@@ -316,6 +312,7 @@ void setTimeout(VALUE self, VALUE rb_timeout)
     updateSettings(port);
 }
 
+
 VALUE getTimeout(VALUE self)
 {
 
@@ -326,6 +323,7 @@ VALUE getTimeout(VALUE self)
     return INT2FIX(port->settings.Timeout_Millisec);
 }
 
+
 VALUE readErrorNo(VALUE self)
 {
 
@@ -335,6 +333,7 @@ VALUE readErrorNo(VALUE self)
 
     return LONG2FIX(port->error);
 }
+
 
 void setSettings(VALUE self)
 {
@@ -354,6 +353,7 @@ void setSettings(VALUE self)
 
     updateSettings(port);
 }
+
 
 void Init_rs_232(void)
 {

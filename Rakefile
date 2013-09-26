@@ -7,21 +7,7 @@ def gem_spec
 end
 
 Rake::ExtensionTask.new('rs_232', gem_spec) do |ext|
-  #ext.lib_dir = 'lib'
-    #ext.cross_compile = true
-    #ext.cross_platform = 'i386-mswin32-60'
-  if RUBY_PLATFORM =~ /mswin|mingw/
-    #RUBY_VERSION =~ /(\d+\.\d+)/
-    #ext.lib_dir = "lib/rs_2323/#{$1}"
-  else
-    #ext.cross_compile = true
-    #ext.cross_platform = ['i386-mingw32']
-    #ext.cross_config_options << "--disable-lookup"
-  end
-
-   ext.cross_compiling do |gem_spec|
-      gem_spec.post_install_message = "You installed the binary version of this gem!"
-   end
+  # stub
 end
 
 desc 'clean out build files'
@@ -65,3 +51,9 @@ task :rebuild do
   sh "rake compile"
   sh "rake clean"
 end
+
+desc "Cucumber tests execution"
+
+task :cucumber do
+  sh "bundle exec cucumber"
+end  
