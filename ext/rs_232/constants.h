@@ -1,10 +1,16 @@
-//
-//  constants.h
-//  rs-232
-//
-//  Created by Roman Lishtaba on 09/02/13.
-//  Copyright (c) 2013 Roman Lishtaba. All rights reserved.
-//
+/*
+ * Copyright (c) 2013, Ingenico Inc.
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+ * provided that the above copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+ * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+**/
 
 #ifndef constants____FILEEXTENSION___
 #define constants____FILEEXTENSION___
@@ -12,7 +18,7 @@
 #include <ruby.h>
 
 
-#define VERSION "3.0.0"
+#define VERSION "3.0.0001"
 
 
 #define LS_CTS  0x01
