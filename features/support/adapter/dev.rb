@@ -1,7 +1,5 @@
 class Adapter::Dev < Adapter::Generic
   attr_reader :interface
-
-  attr_reader :interface
   include CommPort
 
   # == constructor with default params
@@ -26,14 +24,14 @@ class Adapter::Dev < Adapter::Generic
   # @return [Bool]
   #
   def connect
-    @open = @interface.open == 0
+    @interface.open
     # custom configuration should be there if required
     # @interface.baud_rate    = BAUD_115200
     # @interface.data_bits    = DATA_BITS_8
     # @interface.parity       = PAR_NONE
     # @interface.stop_bits    = STOP_1
     # @interface.flow_control = FLOW_OFF
-    open?
+    @open = open?
   end
 
   # == Write function implementation
@@ -51,6 +49,7 @@ class Adapter::Dev < Adapter::Generic
   #
   def close
     @interface.close
+    @open = open?
     !open?
   end
 
@@ -82,9 +81,9 @@ class Adapter::Dev < Adapter::Generic
   #
   def read(count, blocking = false)
     array       = []
-    
+
     bytes_count = (count == -1) ? @interface.available? : count
-    
+
     if blocking
       bytes = read_io_until(count, count)
       array.push bytes if bytes

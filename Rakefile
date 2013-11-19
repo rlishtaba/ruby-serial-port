@@ -18,7 +18,6 @@ end
 task :default => [:clean, :compile]
 
 desc 'code statistics'
-
 task :stats do
 
   def count(glob)
@@ -36,7 +35,6 @@ task :stats do
 end
 
 desc "reload"
-
 task :reload do
     sh "rake clean"
     sh "rake compile"
@@ -45,7 +43,6 @@ task :reload do
 end
 
 desc "rebuild"
-
 task :rebuild do
   sh "rake clean"
   sh "rake compile"
@@ -53,7 +50,6 @@ task :rebuild do
 end
 
 desc "Cucumber tests execution"
-
 task :cucumber do
   sh "bundle exec cucumber"
 end  

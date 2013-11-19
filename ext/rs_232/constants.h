@@ -78,9 +78,9 @@ enum BaudRateType
 enum DataBitsType
 {
     DATA_5 = 5,
-    DATA_6 = 6,
-    DATA_7 = 7,
-    DATA_8 = 8
+    DATA_6,
+    DATA_7,
+    DATA_8
 };
 
 
@@ -94,10 +94,7 @@ enum ParityType
 
 enum StopBitsType
 {
-    STOP_1,
-#   if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    STOP_1_5,
-#   endif
+    STOP_1 = 1,
     STOP_2
 };
 

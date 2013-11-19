@@ -100,9 +100,6 @@ void updateSettings(PortDescriptor *port)
             case STOP_1:
                 port->commConfig.dcb.StopBits = ONESTOPBIT;
                 break;
-            case STOP_1_5:
-                port->commConfig.dcb.StopBits = ONE5STOPBITS;
-                break;
             case STOP_2:
                 port->commConfig.dcb.StopBits = TWOSTOPBITS;
                 break;

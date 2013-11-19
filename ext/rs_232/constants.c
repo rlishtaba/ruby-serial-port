@@ -34,9 +34,6 @@ void Constants_Init(VALUE root)
     rb_define_const(root, "PAR_EVEN", INT2FIX(PAR_EVEN));
 
     rb_define_const(root, "STOP_BITS_1", INT2FIX(STOP_1));
-#   if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    rb_define_const(root, "STOP_BITS_1_5", INT2NUM(STOP_1_5));
-#   endif
     rb_define_const(root, "STOP_BITS_3", INT2FIX(STOP_2));
 
 

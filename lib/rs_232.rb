@@ -6,7 +6,7 @@ require "rs_232.so"
 #  @usage:
 #
 #  instantiate adapter
-#  +adapter+ ||= +Serial.new("COM3")+ #=> [Object]
+#  +adapter+ = +Serial.new("COM3")+ #=> [Object]
 #
 #  write string
 #  +adapter.tx("Hello, World\n")+ #=> 13
@@ -30,7 +30,7 @@ class Serial
   #
   #
   def initialize(port)
-    @interface ||= Rs232.new(port)
+    @interface = Rs232.new(port)
     connect
     $stdout.puts "*** Rs232 instance has been initialized. Build v#{CommPort::VERSION}"
   end
@@ -40,14 +40,14 @@ class Serial
   # @return [Bool]
   #
   def connect
-    @open = @interface.open == 0
+    @interface.open
     # custom configuration should be there if required
     # @interface.baud_rate    = BAUD_115200
     # @interface.data_bits    = DATA_BITS_8
     # @interface.parity       = PAR_NONE
     # @interface.stop_bits    = STOP_1
     # @interface.flow_control = FLOW_OFF
-    open?
+    @open = open?
   end
 
   # == Write function implementation
@@ -65,6 +65,7 @@ class Serial
   #
   def close
     @interface.close
+    @open = open?
     !open?
   end
 
