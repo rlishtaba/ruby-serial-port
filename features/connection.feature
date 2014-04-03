@@ -1,8 +1,10 @@
 Feature: Connection
 
+  As an QA
+  in order to test connection object I will create new one and ensure that it is opened, the simply close it
+
   Scenario: Should have an ability to check open or not
 
-
-    * connection instance "should" be available
-    * I "close" connection
-    * connection instance "should not" be available
+    Given connection instance "should" be available
+     Then I "close" connection
+      And connection instance "should not" be available

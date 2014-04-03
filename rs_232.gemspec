@@ -1,45 +1,40 @@
 # coding: utf-8
-#
-# Copyright (c) 2013, Ingenico Inc.
-#
-# Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
-# provided that the above copyright notice and this permission notice appear in all copies.
-#                                                                                                                                                                                                          *
-# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-# IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-# PERFORMANCE OF THIS SOFTWARE.
-#
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rs_232/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rs_232"
+  spec.name          = 'rs_232'
   spec.version       = Rs232::VERSION
-  spec.authors       = ["Roman Lishtaba"]
-  spec.email         = ["roman@lishtaba.com"]
-  spec.description   = %q{rs-232 lib}
-  spec.summary       = %q{rs-232 lib gem summary}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.authors       = ['Roman Lishtaba']
+  spec.email         = ['roman@lishtaba.com']
+  spec.description   = %q{This is a rs-232 posix implementation as a Ruby extension in C.}
+  spec.summary       = %q{This is a rs-232 implementation as a Ruby extension in C.}
+  spec.homepage      = 'http://www.lishtaba.com'
+  spec.license       = 'MIT'
 
-  spec.files         = Dir["**/*"]
+  spec.files         = Dir['**/*']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
   spec.extensions  = %w(ext/rs_232/extconf.rb)
 
-  spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec", "~> 2.8.0"
-  spec.add_development_dependency "cucumber", "~> 1.1.0"
-  spec.add_development_dependency "rake-compiler"
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency 'bundler','~> 1.5', '>= 1.5.3'
+  spec.add_development_dependency 'rake', '~> 10.1', '>= 10.1.1'
+  spec.add_development_dependency 'rspec', '~> 2.14', '>= 2.14.1'
+  spec.add_development_dependency 'cucumber', '~> 1.3', '>= 1.3.11'
+  spec.add_development_dependency 'rake-compiler', '~> 0.9', '>= 0.9.2'
+  spec.add_development_dependency 'simplecov', '~> 0.8', '>= 0.8.2'
+  spec.add_development_dependency 'pry', '~> 0.9', '>= 0.9.12.6'
 
-  spec.post_install_message     = "You've installed the binary version of Rs-232 gem!"
 
+  spec.post_install_message     = <<-MSG
+  ****************************************************************
+  *** INFO:                                                    ***
+  *** You've installed binary version of the Rs-232 gem!       ***
+  *** Gem version: #{Rs232::VERSION}                                       ***
+  *** Bug reports/questions are welcome: [roman@lishtaba.com]  ***
+  ****************************************************************
+  MSG
 end

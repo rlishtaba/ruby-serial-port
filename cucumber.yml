@@ -1,0 +1,24 @@
+<%
+
+rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
+rerun_opts = rerun.to_s.strip.empty? ? "--format progress features" : "--format pretty #{rerun}"
+std_opts = "--format pretty features --tags ~@wip -r features --strict"
+
+
+wip_opts = "--color -r features"
+wip_opts << ",@wip-jruby" if defined?(JRUBY_VERSION)
+
+legacy_opts = ''
+legacy_opts << " --tags ~@wire" if defined?(JRUBY_VERSION)
+legacy_opts << " --tags ~@wip-jruby" if defined?(JRUBY_VERSION)
+
+%>
+
+default: <%= std_opts %> --tags ~@jruby features
+windows_mri: <%= std_opts %> --tags ~@jruby
+
+ruby_1_9: <%= std_opts %> --tags ~@jruby
+ruby_2_0: <%= std_opts %> --tags ~@jruby
+wip: --wip <%= wip_opts %> features
+none: --format pretty
+rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip

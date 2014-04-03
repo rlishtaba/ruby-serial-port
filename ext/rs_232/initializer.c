@@ -10,7 +10,7 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  *
-**/
+ **/
 
 #include "initializer.h"
 
@@ -330,17 +330,6 @@ VALUE getTimeout(VALUE self)
 }
 
 
-VALUE readErrorNo(VALUE self)
-{
-
-    PortDescriptor *port;
-
-    Data_Get_Struct(self, PortDescriptor, port);
-
-    return LONG2FIX(port->error);
-}
-
-
 void setSettings(VALUE self)
 {
 
@@ -406,7 +395,5 @@ void Init_rs_232(void)
     rb_define_method(rb_cPort, "line_status", (VALUE ( *)()) lineStatusIO, 0);
     rb_define_method(rb_cPort, "set_rts", (VALUE ( *)()) setRtsIO, 1);
     rb_define_method(rb_cPort, "set_dtr", (VALUE ( *)()) setDtrIO, 1);
-
-    rb_define_method(rb_cPort, "read_error_no", (VALUE ( *)()) readErrorNo, 0);
 
 }

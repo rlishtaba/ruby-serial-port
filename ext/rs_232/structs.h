@@ -10,7 +10,7 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  *
-**/
+ **/
 
 #ifndef rs_232_structs_h
 #define rs_232_structs_h
@@ -56,7 +56,6 @@ typedef struct portDescriptor_T
     int          status;
     PortSettings settings;
     int          toBeUpdated;
-    enum         CommErrorNo error;
 
 } PortDescriptor;
 
