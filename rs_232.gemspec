@@ -26,15 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'cucumber', '~> 1.3', '>= 1.3.11'
   spec.add_development_dependency 'rake-compiler', '~> 0.9', '>= 0.9.2'
   spec.add_development_dependency 'simplecov', '~> 0.8', '>= 0.8.2'
-  spec.add_development_dependency 'pry', '~> 0.9', '>= 0.9.12.6'
-
 
   spec.post_install_message     = <<-MSG
-  ****************************************************************
-  *** INFO:                                                    ***
-  *** You've installed binary version of the Rs-232 gem!       ***
-  *** Gem version: #{Rs232::VERSION}                                       ***
-  *** Bug reports/questions are welcome: [roman@lishtaba.com]  ***
-  ****************************************************************
+  (::) You've installed binary version of the Rs-232 gem! (::) 
   MSG
 end
