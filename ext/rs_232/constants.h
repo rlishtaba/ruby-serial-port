@@ -10,7 +10,7 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  *
-**/
+ **/
 
 #ifndef constants____FILEEXTENSION___
 #define constants____FILEEXTENSION___
@@ -18,7 +18,7 @@
 #include <ruby.h>
 
 
-#define VERSION "3.0.0001"
+#define VERSION "2.0.6"
 
 
 #define LS_CTS  0x01
@@ -31,41 +31,8 @@
 #define LS_SR   0x80
 
 
-// TODO: not implemented yet
-enum CommErrorNo {
-    E_NO_ERROR,
-    E_INVALID_FD,
-    E_NO_MEMORY,
-    E_CAUGHT_NON_BLOCKED_SIGNAL,
-    E_PORT_TIMEOUT,
-    E_INVALID_DEVICE,
-    E_BREAK_CONDITION,
-    E_FRAMING_ERROR,
-    E_IO_ERROR,
-    E_BUFFER_OVERRUN,
-    E_RECEIVE_OVERFLOW,
-    E_RECEIVE_PARITY_ERROR,
-    E_TRANSMIT_OVERFLOW,
-    E_READ_FAILED,
-    E_WRITE_FAILED,
-    E_FILE_NOT_FOUND,
-    E_PERMISSION_DENIED,
-    E_AGAIN
-};
-
-
 enum BaudRateType
 {
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-
-    BAUD14400 = 14400,
-    BAUD56000 = 56000,
-    BAUD128000 = 128000,
-    BAUD256000 = 256000,
-
-#endif
-
     BAUD110    = 110,
     BAUD300    = 300,
     BAUD600    = 600,

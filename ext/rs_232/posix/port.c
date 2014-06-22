@@ -10,7 +10,7 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  *
-**/
+ **/
 
 #include "port.h"
 
@@ -22,7 +22,7 @@ VALUE setDtrIO(VALUE self, VALUE rb_int)
 
     int boolean = FIX2INT(rb_int);
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -47,7 +47,7 @@ VALUE setRtsIO(VALUE self, VALUE rb_int)
 
     int boolean = FIX2INT(rb_int);
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -67,7 +67,7 @@ VALUE setRtsIO(VALUE self, VALUE rb_int)
 VALUE lineStatusIO(VALUE self)
 {
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -90,7 +90,6 @@ static void platformInitIO(PortDescriptor *port)
 {
     port->fd     = -1;
     port->status = 1;
-    port->error  = E_NO_ERROR;
 }
 
 
@@ -242,7 +241,7 @@ void updateSettings(PortDescriptor *port)
 
 int queryStatusIO(VALUE self)
 {
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -258,7 +257,7 @@ VALUE isClosedIO(VALUE self)
 
 VALUE flushIO(VALUE self)
 {
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -269,7 +268,7 @@ VALUE flushIO(VALUE self)
 VALUE bytesAvailableIO(VALUE self)
 {
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -286,7 +285,7 @@ VALUE bytesAvailableIO(VALUE self)
 VALUE openIO(VALUE self)
 {
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -318,7 +317,6 @@ VALUE openIO(VALUE self)
     } else
     {
         port->status = 1;
-        port->error  = E_FILE_NOT_FOUND;
         rb_raise(rb_eException, "Unable to open comport: %s\n", port->settings.ComPort);
     }
 
@@ -336,7 +334,7 @@ VALUE writeIO(VALUE self, VALUE message)
     int recv;
     int len;
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -347,7 +345,6 @@ VALUE writeIO(VALUE self, VALUE message)
     recv = (int) write(port->fd, cStr, (size_t) sizeof(cStr));
 
     if (recv < 0){
-        port->error = E_WRITE_FAILED;
         rb_raise(rb_eEOFError, "TX: writing of the %d bytes has failed", len);
     }
 
@@ -364,7 +361,7 @@ VALUE readIO(VALUE self, VALUE rb_int)
 
     int recv;
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -374,14 +371,8 @@ VALUE readIO(VALUE self, VALUE rb_int)
 
     recv = (int) read(port->fd, in, sizeof(in));
     if (recv > 0)
-    {
-        int i;
-        char *reply[recv];
-        for (i = 0; i < recv; i++)
-            reply[i] = &in[i];
-
-        return rb_str_new(*reply, recv);
-    }
+       return rb_str_new(in, recv);
+    
     return Qnil;
 }
 
@@ -391,7 +382,7 @@ VALUE closeIO(VALUE self)
 
     int closed;
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 
@@ -417,7 +408,7 @@ VALUE initializeStruct(VALUE self, VALUE portName)
         Check_Type(portName, T_STRING);
     }
 
-    PortDescriptor *port;
+    PortDescriptor *port = NULL;
 
     Data_Get_Struct(self, PortDescriptor, port);
 

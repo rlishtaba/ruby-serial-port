@@ -1,34 +1,30 @@
-#
-# Copyright (c) 2013, Ingenico Inc.
-#
-# Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
-# provided that the above copyright notice and this permission notice appear in all copies.
-#                                                                                                                                                                                                          *
-# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-# IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-# PERFORMANCE OF THIS SOFTWARE.
-#
+require 'rake'
+require 'bundler/setup'
+require 'bundler/gem_tasks'
 
-require "rake"
-require "bundler/gem_tasks"
+Bundler::GemHelper.install_tasks
+
+$:.unshift(File.dirname(__FILE__) + '/lib')
+
+Dir['gem_tasks/**/*.rake'].each { |rake| load rake }
+
+require 'bundler/gem_tasks'
 require 'rake/extensiontask'
+
+require 'rake/clean'
+
+CLEAN.include %w(**/*.{log} doc coverage tmp)
+
 
 def gem_spec
   @gem_spec ||= Gem::Specification.load('rs_232.gemspec')
 end
 
+
 Rake::ExtensionTask.new('rs_232', gem_spec) do |ext|
   # stub
 end
 
-desc 'clean out build files'
-task :clean do
-  rm_rf File.expand_path('../tmp', __FILE__)
-end
-
-task :default => [:clean, :compile]
 
 desc 'code statistics'
 task :stats do
@@ -47,22 +43,5 @@ task :stats do
   puts "Lines of C*:   #{c_lines}"
 end
 
-desc "reload"
-task :reload do
-    sh "rake clean"
-    sh "rake compile"
-    sh "rake clean"
-    system "ruby bin/env.rb"
-end
 
-desc "rebuild"
-task :rebuild do
-  sh "rake clean"
-  sh "rake compile"
-  sh "rake clean"
-end
-
-desc "Cucumber tests execution"
-task :cucumber do
-  sh "bundle exec cucumber"
-end  
+task :default => [:clean, :compile]
