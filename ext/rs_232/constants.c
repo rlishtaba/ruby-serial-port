@@ -17,8 +17,6 @@
 
 void Constants_Init(VALUE root)
 {
-    rb_define_const(root, "VERSION", rb_str_new2(VERSION));
-
     rb_define_const(root, "BAUD_110", INT2FIX(BAUD110));
     rb_define_const(root, "BAUD_300", INT2FIX(BAUD300));
     rb_define_const(root, "BAUD_600", INT2FIX(BAUD600));

@@ -18,9 +18,6 @@
 #include <ruby.h>
 
 
-#define VERSION "2.0.6"
-
-
 #define LS_CTS  0x01
 #define LS_DSR  0x02
 #define LS_DCD  0x04
