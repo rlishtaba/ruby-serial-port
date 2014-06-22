@@ -1,7 +1,6 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rake'
 require 'rs_232/version'
 
 Gem::Specification.new do |spec|
@@ -14,12 +13,12 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'http://www.ingenico.us'
   spec.license       = 'MIT'
   #
-  spec.files         = FileList['ext/**/*', 'lib/**/*.rb', 'Rakefile', 'rs_232.gemspec', 'Gemfile', 'LICENSE.txt'].to_a
+  spec.files         = [Dir.glob('ext/**/*'), Dir.glob('lib/**/*.rb'), 'Rakefile', 'rs_232.gemspec', 'Gemfile', 'LICENSE.txt'].flatten
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
   #
-  spec.extensions    = FileList["ext/**/extconf.rb"]
+  spec.extensions    = Dir.glob("ext/**/extconf.rb")
   #
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
