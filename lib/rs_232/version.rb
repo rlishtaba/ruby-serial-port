@@ -1,6 +1,6 @@
 module Rs232
   module Version
-    MAJOR, MINOR, PATCH = 2, 0, 6
+    MAJOR, MINOR, PATCH = 2, 1, 0
     STRING              = [MAJOR, MINOR, PATCH].join('.')
   end
 
