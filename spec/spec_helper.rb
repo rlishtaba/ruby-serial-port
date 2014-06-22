@@ -13,6 +13,5 @@ Dir[File.expand_path('support/**/*.rb', File.dirname(__FILE__))].each do |f|
 end
 
 RSpec.configure do |config|
-  config.color_enabled = true
   config.formatter     = :documentation
 end
