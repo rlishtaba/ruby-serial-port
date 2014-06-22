@@ -19,7 +19,7 @@ tmp/*
 ext/rs-232/*.o
 ext/rs-232/*.bundle
 
-*.idea
+/.idea
 *.iml
 
 lib/*.bundle

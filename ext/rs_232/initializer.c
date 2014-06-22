@@ -353,7 +353,6 @@ void setSettings(VALUE self)
 void Init_rs_232(void)
 {
 
-
     VALUE root, rb_cPort;
 
     root = rb_define_module("CommPort");

@@ -7,10 +7,6 @@ if ENV['DEBUG_C']
   $stdout.puts "compiling in debug mode... flags: #{$CFLAGS}"
 end
 
-def root(path)
-  File.expand_path("../#{path}/", __FILE__)
-end
-
 dir_config('rs_232')
 
 $warnflags = '-Wall'

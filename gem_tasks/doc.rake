@@ -1,5 +1,7 @@
 require 'rdoc/task'
 
+# - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * -
+#
 desc "builds documentation for the 'rs_232' gem"
 Rake::RDocTask.new :doc do |rd|
 
