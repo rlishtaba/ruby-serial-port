@@ -1,6 +1,6 @@
-$:.unshift File.expand_path '../../lib', __FILE__
+$LOAD_PATH.unshift File.expand_path '../../lib', __FILE__
 example = File.expand_path '../../vendor/rs_232_example/lib', __FILE__
-$:.unshift example
+$LOAD_PATH.unshift example
 
 require 'bundler'
 require 'bundler/setup'
@@ -13,5 +13,5 @@ Dir[File.expand_path('support/**/*.rb', File.dirname(__FILE__))].each do |f|
 end
 
 RSpec.configure do |config|
-  config.formatter     = :documentation
+  config.formatter = :documentation
 end

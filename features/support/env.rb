@@ -1,9 +1,9 @@
-$:.unshift File.expand_path '../../../', __FILE__
+$LOAD_PATH.unshift File.expand_path '../../../', __FILE__
 require 'spec/spec_helper'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
-unless $0 =~ /cucumber/i
+unless $PROGRAM_NAME =~ /cucumber/i
   runtime = Cucumber::Runtime.new
   runtime.load_programming_language('rb')
 end

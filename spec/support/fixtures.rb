@@ -14,7 +14,7 @@ module Fixtures
   end
 
   def binary_fixture(name)
-    File.open(absolute_fixture_path(name), "rb") { |f| f.read }
+    File.open(absolute_fixture_path(name), 'rb', &:read)
   end
 
   def fixtures_path

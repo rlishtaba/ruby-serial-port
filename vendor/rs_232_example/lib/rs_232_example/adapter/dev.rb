@@ -39,7 +39,6 @@ module Rs232Example
       # :Impl
       #
 
-
       # == constructor with default params
       #
       def initialize(port, &block)
@@ -142,9 +141,7 @@ module Rs232Example
       # no direct ruby usage
       #
       def block_io_until(count, up_to)
-        while @interface.available? < count && up_to > 0
-          up_to -= 1
-        end
+        up_to -= 1 while @interface.available? < count && up_to > 0
         up_to > 0
       end
 
@@ -156,12 +153,9 @@ module Rs232Example
       # no direct ruby usage
       #
       def read_io_until(count, up_to)
-        until block_io_until(count, up_to)
-          sleep 0.001
-        end
+        sleep 0.001 until block_io_until(count, up_to)
         read(count)
       end
-
     end
   end
 end

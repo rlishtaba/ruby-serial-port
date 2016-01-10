@@ -1,0 +1,9 @@
+Documentation:
+  Enabled: false
+Style/IndentHash:
+  Enabled: false
+Metrics/LineLength:
+  Max: 100
+AllCops:
+  Exclude:
+    - doc/**/*

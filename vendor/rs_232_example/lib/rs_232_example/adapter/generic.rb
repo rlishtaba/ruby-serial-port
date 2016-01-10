@@ -6,7 +6,7 @@ module Rs232Example
       include MonitorMixin
       attr_accessor :logger
 
-      def initialize(*args, &block)
+      def initialize(*_args, &_block)
         Thread.abort_on_exception = true
         @rxd                      = true unless instance_variables.include?(:@rxd)
         super()
@@ -14,13 +14,9 @@ module Rs232Example
         run
       end
 
-      def notifier=(value)
-        @notifier = value
-      end
+      attr_writer :notifier
 
-      def notifier
-        @notifier
-      end
+      attr_reader :notifier
 
       def reading_allowed?
         @rxd
@@ -37,9 +33,7 @@ module Rs232Example
 
       def rx(int, blocking = false)
         byte = read(int, blocking)
-        if byte
-          debug "RX [#{byte.length}]: #{byte.inspect}"
-        end
+        debug "RX [#{byte.length}]: #{byte.inspect}" if byte
         byte
       end
 
@@ -72,7 +66,6 @@ module Rs232Example
           $stdout.puts message
         end
       end
-
     end
   end
 end

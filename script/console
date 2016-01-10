@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+lib = File.expand_path '../lib', __FILE__
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include? lib
+
+require 'irb'
+require 'irb/completion'
+require 'rs_232'
+
+$stdout.puts "Interactive session loaded. (Rs-232 v#{Rs232::VERSION})"
+IRB.start

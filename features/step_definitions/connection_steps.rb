@@ -1,5 +1,4 @@
 When /^connection instance "(should|should not)" be available$/ do |matcher|
-
   action = matcher == 'should' ? :should : :should_not
 
   if respond_to? :should
@@ -7,11 +6,9 @@ When /^connection instance "(should|should not)" be available$/ do |matcher|
   else
     assert_equal(adapter.open?, action == :should)
   end
-
 end
 
 Given /^I "(open|close)" connection$/ do |action|
-
   adapter.send(action)
 
   if action == 'close'
@@ -27,7 +24,4 @@ Given /^I "(open|close)" connection$/ do |action|
       assert_equal(connection.open?, true)
     end
   end
-
 end
-
-

@@ -2,21 +2,20 @@ require 'rs_232/version'
 require 'rs_232.so'
 
 module Rs232
-
-#== Adapter implementation example, no event only read on-demand:
-#
-#  @usage:
-#
-#  instantiate adapter
-#  +adapter+ = +Serial.new("COM3")+ #=> [Object]
-#
-#  write string
-#  +adapter.tx("Hello, World\n")+ #=> 13
-#
-#  read all available bytes
-#  +adapter.rx(-1)+ #=> "Bye bye cruel world\n"
-#
-#
+  #== Adapter implementation example, no event only read on-demand:
+  #
+  #  @usage:
+  #
+  #  instantiate adapter
+  #  +adapter+ = +Serial.new("COM3")+ #=> [Object]
+  #
+  #  write string
+  #  +adapter.tx("Hello, World\n")+ #=> 13
+  #
+  #  read all available bytes
+  #  +adapter.rx(-1)+ #=> "Bye bye cruel world\n"
+  #
+  #
   class Adapter
     attr_reader :interface
     # == Top level module ::CommPort constants
@@ -53,7 +52,6 @@ module Rs232
     #
     # :Impl
     #
-
 
     # == constructor with default params
     #
@@ -150,9 +148,7 @@ module Rs232
     # no direct ruby usage
     #
     def block_io_until(count, up_to)
-      while @interface.available? < count && up_to > 0
-        up_to -= 1
-      end
+      up_to -= 1 while @interface.available? < count && up_to > 0
       up_to > 0
     end
 
@@ -164,12 +160,8 @@ module Rs232
     # no direct ruby usage
     #
     def read_io_until(count, up_to)
-      until block_io_until(count, up_to)
-        sleep 0.001
-      end
+      sleep 0.001 until block_io_until(count, up_to)
       read(count)
     end
-
   end
-
 end
