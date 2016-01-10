@@ -8,5 +8,5 @@ begin
   end
 
 rescue LoadError
-  warn("Unable to load simplecov gem")
+  warn('Unable to load simplecov gem')
 end

@@ -12,20 +12,20 @@ dir_config('rs_232')
 $warnflags = '-Wall'
 
 OS = case RbConfig::CONFIG['host_os'].downcase
-       when /linux/
-         'linux'
-       when /darwin/
-         'darwin'
-       when /freebsd/
-         'freebsd'
-       when /openbsd/
-         'openbsd'
-       when /sunos|solaris/
-         'solaris'
-       when /mswin|mingw/
-         'windows'
-       else
-         RbConfig::CONFIG['host_os'].downcase
+     when /linux/
+       'linux'
+     when /darwin/
+       'darwin'
+     when /freebsd/
+       'freebsd'
+     when /openbsd/
+       'openbsd'
+     when /sunos|solaris/
+       'solaris'
+     when /mswin|mingw/
+       'windows'
+     else
+       RbConfig::CONFIG['host_os'].downcase
      end
 
 have_header('ruby.h')
@@ -49,7 +49,7 @@ elsif %w(linux darwin).include? OS
   have_header('errno.h')
   have_header('sys/ioctl.h')
 else
-  raise "RS-233 implementation is not tested for this #{OS} platform."
+  fail "RS-233 implementation is not tested for this #{OS} platform."
 end
 
 $objs = %w(constants.o port.o initializer.o)

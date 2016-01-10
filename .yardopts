@@ -1,0 +1,13 @@
+--plugin 'yard-cucumber'
+--protected
+--no-private
+--embed-mixin ClassMethods
+--tag yard.signature:"YARD Tag Signature"
+--tag valid_values:"Valid values"
+--tag default_value:"Default value"
+--type-name-tag yard.tag:"YARD Tag"
+--type-name-tag yard.directive:"YARD Directive"
+--hide-tag yard.tag
+--hide-tag yard.directive
+--hide-tag yard.signature
+-

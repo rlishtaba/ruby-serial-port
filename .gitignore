@@ -33,3 +33,4 @@ lib/*.jar
 .project
 .cproject
 atlassian-ide-plugin.xml
+rspec.xml
