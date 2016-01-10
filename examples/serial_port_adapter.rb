@@ -19,18 +19,7 @@ class SerialPortAdapter
   #
   def initialize(port, options = {})
     @port = port
-    @hardware = {
-        baud_rate: options.fetch(:baud_rate, BAUD_115200).to_i,
-        data_bits: options.fetch(:data_bits, DATA_BITS_8).to_i,
-        parity: options.fetch(:parity, PAR_NONE).to_i,
-        stop_bits: options.fetch(:stop_bits, STOP_BITS_1).to_i,
-        flow_control: options.fetch(:flow_control, FLOW_OFF).to_i
-    }.freeze
-    @timeouts = {
-        connecting_timeout: options.fetch(:connecting_timeout, 15).to_i,
-        sending_timeout: options.fetch(:sending_timeout, 5).to_i,
-        receiving_timeout: options.fetch(:receiving_timeout, 60).to_i
-    }.freeze
+    @options = options
     @open = false
     @interface = Rs232.new(port)
     connect
@@ -39,9 +28,9 @@ class SerialPortAdapter
   def connect
     return if open?
     can_configure_timeout = interface.respond_to?(:connecting_timeout)
-    interface.connecting_timeout = @timeouts[:connecting_timeout] if can_configure_timeout
+    interface.connecting_timeout = @options.fetch(:connecting_timeout, 60) if can_configure_timeout
     interface.open
-    configure_interface @hardware
+    configure_interface!
     @open = open?
   end
 
@@ -88,12 +77,12 @@ class SerialPortAdapter
 
   private
 
-  def configure_interface(options)
-    interface.baud_rate = options[:baud_rate]
-    interface.data_bits = options[:data_bits]
-    interface.parity = options[:parity]
-    interface.stop_bits = options[:stop_bits]
-    interface.flow_control = options[:flow_control]
+  def configure_interface!
+    interface.baud_rate = @options.fetch(:baud_rate, BAUD_115200).to_i
+    interface.data_bits = @options.fetch(:data_bits, DATA_BITS_8).to_i
+    interface.parity = @options.fetch(:parity, PAR_NONE).to_i
+    interface.stop_bits = @options.fetch(:stop_bits, STOP_BITS_1).to_i
+    interface.flow_control = @options.fetch(:flow_control, FLOW_OFF).to_i
   end
 
   def block_io_until(count, up_to)
