@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
-lib = File.expand_path '../lib', __FILE__
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include? lib
+%w(lib examples).each do |path|
+  expanded_path = File.expand_path("../#{path}", __FILE__)
+  $LOAD_PATH.unshift(expanded_path) unless $LOAD_PATH.include? expanded_path
+end
 
 require 'irb'
 require 'irb/completion'

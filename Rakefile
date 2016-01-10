@@ -10,4 +10,4 @@ load 'tasks/rspec.rake'
 load 'tasks/cucumber.rake'
 load 'tasks/compile.rake'
 
-task default: [:rspec]
+task default: [:clobber, :compile, :spec, :features]

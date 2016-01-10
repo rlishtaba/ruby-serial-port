@@ -7,3 +7,4 @@ Metrics/LineLength:
 AllCops:
   Exclude:
     - doc/**/*
+    - ext/rs_232/*.rb

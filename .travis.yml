@@ -1,4 +1,9 @@
 language: ruby
 rvm:
   - 2.1.2
+  - 1.9.3
+  - 2.2.1
+os:
+  - linux
+  - osx
 before_install: gem install bundler -v 1.10.6
