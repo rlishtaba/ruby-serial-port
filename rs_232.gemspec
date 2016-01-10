@@ -31,8 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'cucumber', '~> 1.3'
   spec.add_development_dependency 'rspec_junit_formatter', '~> 0'
   spec.add_development_dependency 'yard', '~> 0.8'
-  spec.add_development_dependency 'rake-compiler'
-  spec.add_development_dependency 'yard'
+  spec.add_development_dependency 'rake-compiler', '~> 0'
   spec.post_install_message = <<-MSG
   (::) You've installed binary version of the Rs-232 gem! (::)
   MSG
