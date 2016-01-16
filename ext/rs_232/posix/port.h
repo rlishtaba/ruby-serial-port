@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Ingenico Inc.
+ * Copyright (c) 2013, Roman Lishtaba.
  *
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -12,9 +12,16 @@
  *
  **/
 
-#ifndef rs_232_port_h____FILEEXTENSION___
-#define rs_232_port_h____FILEEXTENSION___
+/*
+ * @author Roman Lishtaba
+ */
 
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
 #   include <ruby.h>
 #   include <stdio.h>
 #   include <string.h>
@@ -23,31 +30,33 @@
 #   include <errno.h>
 #   include <termios.h>
 #   include <sys/ioctl.h>
-#   include "structs.h"
-
-
-void setBaudRate(VALUE, VALUE);
-
-VALUE getBaudRate(VALUE);
-
-void setParity(VALUE, VALUE);
-
-VALUE getParity(VALUE);
-
-void setDataBits(VALUE, VALUE);
-
-VALUE getDataBits(VALUE);
-
-void setStopBits(VALUE, VALUE);
-
-VALUE getStopBits(VALUE);
-
-void setFlowControl(VALUE, VALUE);
-
-VALUE getFlowControl(VALUE);
-
-void setTimeout(VALUE, VALUE);
-
-void setSettings(VALUE);
-
+#   include "Structs.h"
+    
+    
+    void setBaudRate(VALUE, VALUE);
+    
+    VALUE getBaudRate(VALUE);
+    
+    void setParity(VALUE, VALUE);
+    
+    VALUE getParity(VALUE);
+    
+    void setDataBits(VALUE, VALUE);
+    
+    VALUE getDataBits(VALUE);
+    
+    void setStopBits(VALUE, VALUE);
+    
+    VALUE getStopBits(VALUE);
+    
+    void setFlowControl(VALUE, VALUE);
+    
+    VALUE getFlowControl(VALUE);
+    
+    void setTimeout(VALUE, VALUE);
+    
+    void setSettings(VALUE);
+    
+#ifdef __cplusplus
+}
 #endif

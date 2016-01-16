@@ -22,41 +22,41 @@
 extern "C" {
 #endif
     
-#include "Constants.h"
-    
-    /*
-     * structure to contain port settings
-     */
-    typedef struct PortSettings_T
-    {
-        char              ComPort[40];
-        enum BaudRateType BaudRate;
-        enum DataBitsType DataBits;
-        enum ParityType   Parity;
-        enum StopBitsType StopBits;
-        enum FlowType     FlowControl;
-        long              Timeout_Millisec;
-    } PortSettings;
-    
-    
-    /*
-     * port descriptor structure
-     */
-    typedef struct portDescriptor_T
-    {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-        HANDLE       fd;
-        COMMCONFIG   commConfig;
-        COMMTIMEOUTS commTimeouts;
+    
+#   include "windows/Port.h"
+    
 #else
-        int            fd;
-        struct termios posixConfig;
-        struct termios previousPosixConfig;
+    
+#   include "posix/Port.h"
+    
 #endif
-        int          status;
-        PortSettings settings;
-        int          toBeUpdated;
-    } PortDescriptor;
+    
+#include "Structs.h"
+    
+    VALUE initializeStruct(VALUE, VALUE);
+    
+    void updateSettings(PortDescriptor *port);
+    
+    VALUE isOpenIO(VALUE);
+    
+    VALUE openIO(VALUE);
+    
+    VALUE closeIO(VALUE);
+    
+    VALUE bytesAvailableIO(VALUE);
+    
+    VALUE flushIO(VALUE);
+    
+    VALUE writeIO(VALUE, VALUE);
+    
+    VALUE readIO(VALUE, VALUE);
+    
+    VALUE lineStatusIO(VALUE);
+    
+    VALUE setRtsIO(VALUE, VALUE);
+    
+    VALUE setDtrIO(VALUE, VALUE);
     
 #ifdef __cplusplus
 }

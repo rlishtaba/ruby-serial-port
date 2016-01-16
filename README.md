@@ -2,7 +2,7 @@
 
 # Ruby Serial Port implementation as C Native Extension. [ RS-232 ]
 
-This is a RS-232 implementation as a Ruby C Native Extension.
+Rubygem offering simple API in order to start using Serial Port communication in your project running on Linux, Mac OS X or Windows.
 
 ## Installation
 
