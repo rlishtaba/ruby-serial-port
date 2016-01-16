@@ -8,8 +8,11 @@ Gem::Specification.new do |spec|
   spec.version = Rs232::VERSION
   spec.authors = ['Roman Lishtaba']
   spec.email = ['roman@lishtaba.com']
-  spec.description = 'This is an RS-232 posix implementation as a Ruby C Native Extension.'
-  spec.summary = 'This is a RS-232 implementation as a Ruby C Native Extension.'
+  spec.description = 'RS-232 cross-platform implementation as Ruby C native extension.'
+  spec.summary = <<-SUMMARY
+RS-232 cross-platform implementation as Ruby C native extension.
+Rubygem offering simple API in order to start using Serial Port communication in your project running on Linux, Mac OS X and Windows.
+  SUMMARY
   spec.homepage = 'http://www.lishtaba.com'
   spec.license = 'MIT'
   spec.files = [
