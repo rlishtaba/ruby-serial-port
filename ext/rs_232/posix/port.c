@@ -289,7 +289,7 @@ VALUE openIO(VALUE self)
 
     Data_Get_Struct(self, PortDescriptor, port);
 
-    if ((port->fd = open(port->settings.ComPort, O_RDWR | O_NOCTTY | O_SYNC)) != -1)
+    if ((port->fd = open(port->settings.ComPort, O_RDWR | O_NOCTTY | O_SYNC | O_NDELAY)) != -1)
     {
 
         port->status = 0;
@@ -304,8 +304,8 @@ VALUE openIO(VALUE self)
 
 
         port->posixConfig.c_cflag |= CREAD | CLOCAL;
-        port->posixConfig.c_lflag &= (~(ICANON| ECHO| ECHOE| ECHOK| ECHONL| ISIG));
-        port->posixConfig.c_iflag &= (~(INPCK| IGNPAR| PARMRK| ISTRIP| ICRNL| IXANY));
+        port->posixConfig.c_lflag &= (~(ICANON|ECHO|ECHOE|ECHOK|ECHONL|ISIG));
+        port->posixConfig.c_iflag &= (~(INPCK|IGNPAR|PARMRK|ISTRIP|ICRNL|IXANY));
         port->posixConfig.c_oflag &= (~OPOST);
         port->posixConfig.c_cc[VMIN]  = 0;
         port->posixConfig.c_cc[VTIME] = 0;

@@ -26,7 +26,7 @@ class SerialPortAdapter
   end
 
   def connect
-    return if open?
+    return open? if open?
     can_configure_timeout = interface.respond_to?(:connecting_timeout)
     interface.connecting_timeout = @options.fetch(:connecting_timeout, 60) if can_configure_timeout
     interface.open
@@ -71,7 +71,7 @@ class SerialPortAdapter
     array.empty? ? nil : array.join
   end
 
-  def read(count, blocking = false)
+  def read(count = 1, blocking = false)
     blocking ? recv(count) : recv_nonblock(count)
   end
 
