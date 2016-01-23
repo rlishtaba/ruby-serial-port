@@ -3,6 +3,8 @@ rvm:
   - 2.1.2
   - 1.9.3
   - 2.2.1
+env:
+  - SERIAL_PORT=README.md
 os:
   - linux
   - osx
