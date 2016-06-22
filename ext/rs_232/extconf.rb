@@ -33,7 +33,7 @@ OS = case RbConfig::CONFIG['host_os'].downcase
 
 have_header('ruby.h')
 have_header('stdio.h')
-have_library( 'stdc++' );
+have_library( 'stdc++' )
 
 if OS == 'windows'
   $VPATH << '$(srcdir)/windows'
@@ -56,7 +56,7 @@ else
   fail "RS-233 implementation wasn't been tested for #{OS} platform."
 end
 
-$objs = %w(Option.o Constants.o Port.o Rs232.o).freeze
+$objs = %w(Constants.o Port.o Rs232.o).freeze
 
 $CFLAGS += " -DOS_#{OS.upcase}"
 

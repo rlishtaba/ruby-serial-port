@@ -31,7 +31,7 @@ Rubygem offering simple API in order to start using Serial Port communication in
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.extensions = 'ext/extconf.rb'
+  spec.extensions = 'ext/rs_232/extconf.rb'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake', '~> 10.0'
