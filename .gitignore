@@ -37,3 +37,4 @@ rspec.xml
 ruby-rs-232.xcodeproj
 script/ruby
 /vendor
+ext/rs_232/Makefile
