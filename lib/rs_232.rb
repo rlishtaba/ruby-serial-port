@@ -18,8 +18,8 @@ module Rs232
   #   port.read(15)
   #   #=> 'Hello, World!!!'
   #
-  def self.new(port)
-    Impl.new(port)
+  def new_serial_port(port, opts = {}, &block)
+    Impl.new(port, opts, &block)
   end
 
   # the following class represents ruby public interface
@@ -43,22 +43,22 @@ module Rs232
     extend Forwardable
 
     def_delegators :@impl,
-                   :line_status,
-                   :set_rts,
-                   :set_dtr,
                    :read,
                    :write,
                    :flush,
                    :close,
-                   :option, #todo: remove
-                   :open?
+                   :open?,
+                   :set_rts,
+                   :set_dtr
 
     def initialize(name, opts = {})
       @impl = Rs232::Native.new(name)
       @opts = STD_OPTS.merge(opts).freeze
       freeze
+      yield self if block_given?
     end
 
+    # @raise RuntimeError in case of open error
     def connect
       return self if open?
       @impl.open.tap do |io|
