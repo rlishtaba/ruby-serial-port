@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Ingenico Inc.
+ * Copyright (c) 2013, Roman Lishtaba.
  *
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -12,51 +12,52 @@
  *
  **/
 
-#ifndef rs_232_structs_h
-#define rs_232_structs_h
-
-#include "constants.h"
-
 /*
- * structure to contain port settings
+ * @author Roman Lishtaba
  */
 
-typedef struct PortSettings_T
-{
-    char              ComPort[40];
-    enum BaudRateType BaudRate;
-    enum DataBitsType DataBits;
-    enum ParityType   Parity;
-    enum StopBitsType StopBits;
-    enum FlowType     FlowControl;
-    long              Timeout_Millisec;
-} PortSettings;
+#pragma once
 
-
-/*
- * port descriptor structure
- */
-
-typedef struct portDescriptor_T
-{
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-
-    HANDLE       fd;
-    COMMCONFIG   commConfig;
-    COMMTIMEOUTS commTimeouts;
-
-#else
-
-    int            fd;
-    struct termios posixConfig;
-    struct termios previousPosixConfig;
-
+#ifdef __cplusplus
+extern "C" {
 #endif
-
-    int          status;
-    PortSettings settings;
-    int          toBeUpdated;
-
-} PortDescriptor;
-
+    
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    
+#   include "windows/Port.h"
+    
+#else
+    
+#   include "posix/Port.h"
+    
+#endif
+    
+#include "Structs.h"
+    
+    VALUE initializeStruct(VALUE, VALUE);
+    
+    void updateSettings(PortDescriptor *port);
+    
+    VALUE isOpenIO(VALUE);
+    
+    VALUE openIO(VALUE);
+    
+    VALUE closeIO(VALUE);
+    
+    VALUE bytesAvailableIO(VALUE);
+    
+    VALUE flushIO(VALUE);
+    
+    VALUE writeIO(VALUE, VALUE);
+    
+    VALUE readIO(VALUE, VALUE);
+    
+    VALUE lineStatusIO(VALUE);
+    
+    VALUE setRtsIO(VALUE, VALUE);
+    
+    VALUE setDtrIO(VALUE, VALUE);
+    
+#ifdef __cplusplus
+}
 #endif

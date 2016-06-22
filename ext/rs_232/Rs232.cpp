@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Ingenico Inc.
+ * Copyright (c) 2013, Roman Lishtaba.
  *
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -10,45 +10,44 @@
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  *
- **/
+ */
 
-#include "initializer.h"
+/*
+ * @author Roman Lishtaba
+ */
+
+#include "Rs232.h"
 
 static void destructor(PortDescriptor *port)
 {
     xfree(port);
 }
 
-
 static void markDescriptor(PortDescriptor *port)
 {
+    //noop
 }
 
 
 static VALUE allocateStruct(VALUE self)
 {
-    PortDescriptor *port;
-
+    PortDescriptor *port = NULL;
     rb_iv_set(self, "@port", Qnil);
-
+    
     return Data_Make_Struct(self, PortDescriptor, markDescriptor, destructor, port);
 }
 
 
 void setBaudRate(VALUE self, VALUE int_baudRate)
 {
+    Check_Type(int_baudRate, T_FIXNUM);
+    
     PortDescriptor *port;
-
-    {
-        Check_Type(int_baudRate, T_FIXNUM);
-    }
-
     int baudRate = FIX2INT(int_baudRate);
-
-    Data_Get_Struct(self, PortDescriptor, port);
-
     int baud = 110;
-
+    
+    Data_Get_Struct(self, PortDescriptor, port);
+    
     switch (baudRate)
     {
         case BAUD110:
@@ -85,10 +84,10 @@ void setBaudRate(VALUE self, VALUE int_baudRate)
             rb_raise(rb_eException, "BaudRate value does not match specification, current: %d", baudRate);
             break;
     }
-
+    
     port->settings.BaudRate = (enum BaudRateType) baud;
     port->toBeUpdated |= T_BaudRate;
-
+    
     updateSettings(port);
 }
 
@@ -96,28 +95,21 @@ void setBaudRate(VALUE self, VALUE int_baudRate)
 VALUE getBaudRate(VALUE self)
 {
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.BaudRate);
 }
 
 
 void setParity(VALUE self, VALUE int_parity)
 {
-
-    {
-        Check_Type(int_parity, T_FIXNUM);
-    }
-
-    int parity = FIX2INT(int_parity);
-
+    Check_Type(int_parity, T_FIXNUM);
+    
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    int parity = FIX2INT(int_parity);
     enum ParityType parity_type = PAR_NONE;
-
+    
     switch (parity)
     {
         case PAR_NONE:
@@ -133,40 +125,31 @@ void setParity(VALUE self, VALUE int_parity)
             rb_raise(rb_eException, "Parity value does not match specification, current: %d", parity);
             break;
     }
-
+    
     port->settings.Parity = parity_type;
     port->toBeUpdated |= T_Parity;
-
+    
     updateSettings(port);
 }
 
 
 VALUE getParity(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.Parity);
 }
 
 
 void setDataBits(VALUE self, VALUE intDataBits)
 {
-
-    {
-        Check_Type(intDataBits, T_FIXNUM);
-    }
-
-    int dataBits = FIX2INT(intDataBits);
-
+    Check_Type(intDataBits, T_FIXNUM);
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    int dataBits = FIX2INT(intDataBits);
     enum DataBitsType dataBitsType = DATA_8;
-
+    
     switch (dataBits)
     {
         case DATA_5:
@@ -185,40 +168,32 @@ void setDataBits(VALUE self, VALUE intDataBits)
             rb_raise(rb_eException, "DataBits value does not match specification, current: %d", dataBits);
             break;
     }
-
+    
     port->settings.DataBits = dataBitsType;
     port->toBeUpdated |= T_DataBits;
-
+    
     updateSettings(port);
 }
 
 
 VALUE getDataBits(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.DataBits);
 }
 
 
 void setStopBits(VALUE self, VALUE intStopBits)
 {
-
-    {
-        Check_Type(intStopBits, T_FIXNUM);
-    }
-
-    int stopBits = FIX2INT(intStopBits);
-
+    Check_Type(intStopBits, T_FIXNUM);
+    
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    int stopBits = FIX2INT(intStopBits);
     enum StopBitsType stopBitsType = STOP_1;
-
+    
     switch (stopBits)
     {
         case STOP_1:
@@ -231,40 +206,31 @@ void setStopBits(VALUE self, VALUE intStopBits)
             rb_raise(rb_eException, "StopBits value does not match specification, current: %d", stopBits);
             break;
     }
-
+    
     port->settings.StopBits = stopBitsType;
     port->toBeUpdated |= T_StopBits;
-
+    
     updateSettings(port);
 }
 
 
 VALUE getStopBits(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.StopBits);
 }
 
 
 void setFlowControl(VALUE self, VALUE intFlow)
 {
-
-    {
-        Check_Type(intFlow, T_FIXNUM);
-    }
-
-    int flow = FIX2INT(intFlow);
-
+    Check_Type(intFlow, T_FIXNUM);
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    int flow = FIX2INT(intFlow);
     enum FlowType flowType = FLOW_OFF;
-
+    
     switch (flow)
     {
         case FLOW_OFF:
@@ -280,119 +246,120 @@ void setFlowControl(VALUE self, VALUE intFlow)
             rb_raise(rb_eException, "FlowControl value does not match specification, current: %d", flow);
             break;
     }
-
+    
     port->settings.FlowControl = flowType;
     port->toBeUpdated |= T_StopBits;
-
+    
     updateSettings(port);
 }
 
 
 VALUE getFlowControl(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.FlowControl);
 }
 
 
 void setTimeout(VALUE self, VALUE rb_timeout)
 {
-
-    {
-        Check_Type(rb_timeout, T_FIXNUM);
-    }
-
+    Check_Type(rb_timeout, T_FIXNUM);
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
     long timeout = FIX2LONG(rb_timeout);
-
+    
     port->settings.Timeout_Millisec = timeout;
     port->toBeUpdated |= T_TimeOut;
-
+    
     updateSettings(port);
 }
 
-
+/*
+ * Get connection timeout
+ *
+ * @return [Fixnum] the timeout value
+ * @see Impl#timeout
+ */
 VALUE getTimeout(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     return INT2FIX(port->settings.Timeout_Millisec);
 }
 
-
 void setSettings(VALUE self)
 {
-
     PortDescriptor *port;
-
     Data_Get_Struct(self, PortDescriptor, port);
-
+    
     setBaudRate(self, INT2FIX(port->settings.BaudRate));
     setParity(self, INT2FIX(port->settings.Parity));
     setDataBits(self, INT2FIX(port->settings.DataBits));
     setStopBits(self, INT2FIX(port->settings.StopBits));
     setFlowControl(self, INT2FIX(port->settings.FlowControl));
     setTimeout(self, LONG2FIX(port->settings.Timeout_Millisec));
-
     port->toBeUpdated = T_ALL;
-
+    
     updateSettings(port);
 }
 
-
-void Init_rs_232(void)
+extern "C" void Init_rs_232_native(void)
 {
-
-    VALUE root, rb_cPort;
-
-    root = rb_define_module("CommPort");
-
-    Constants_Init(root);
-
-    rb_cPort = rb_define_class_under(root, "Rs232", rb_cObject);
-    rb_define_alloc_func(rb_cPort, allocateStruct);
-    rb_define_method(rb_cPort, "initialize", (VALUE ( *)()) initializeStruct, 1);
-
-    rb_define_method(rb_cPort, "baud_rate=", (VALUE ( *)()) setBaudRate, 1);
-    rb_define_method(rb_cPort, "baud_rate", (VALUE ( *)()) getBaudRate, 0);
-
-    rb_define_method(rb_cPort, "parity=", (VALUE ( *)()) setParity, 1);
-    rb_define_method(rb_cPort, "parity", (VALUE ( *)()) getParity, 0);
-
-    rb_define_method(rb_cPort, "data_bits=", (VALUE ( *)()) setDataBits, 1);
-    rb_define_method(rb_cPort, "data_bits", (VALUE ( *)()) getDataBits, 0);
-
-    rb_define_method(rb_cPort, "stop_bits=", (VALUE ( *)()) setStopBits, 1);
-    rb_define_method(rb_cPort, "stop_bits", (VALUE ( *)()) getStopBits, 0);
-
-    rb_define_method(rb_cPort, "flow_control=", (VALUE ( *)()) setFlowControl, 1);
-    rb_define_method(rb_cPort, "flow_control", (VALUE ( *)()) getFlowControl, 0);
-
-    rb_define_method(rb_cPort, "timeout=", (VALUE ( *)()) setTimeout, 1);
-    rb_define_method(rb_cPort, "timeout", (VALUE ( *)()) getTimeout, 0);
-
-    rb_define_method(rb_cPort, "open", (VALUE ( *)()) openIO, 0);
-    rb_define_method(rb_cPort, "close", (VALUE ( *)()) closeIO, 0);
-    rb_define_method(rb_cPort, "flush", (VALUE ( *)()) flushIO, 0);
-    rb_define_method(rb_cPort, "closed?", (VALUE ( *)()) isClosedIO, 0);
-
-
-    rb_define_method(rb_cPort, "write", (VALUE ( *)()) writeIO, 1);
-    rb_define_method(rb_cPort, "read", (VALUE ( *)()) readIO, 1);
-    rb_define_method(rb_cPort, "available?", (VALUE ( *)()) bytesAvailableIO, 0);
-
-    rb_define_method(rb_cPort, "line_status", (VALUE ( *)()) lineStatusIO, 0);
-    rb_define_method(rb_cPort, "set_rts", (VALUE ( *)()) setRtsIO, 1);
-    rb_define_method(rb_cPort, "set_dtr", (VALUE ( *)()) setDtrIO, 1);
-
+    const char rootModName[] = "Rs232";
+    const char implClassName[] = "Native";
+    const char constantsModName[] = "Constants";
+    const char VERSION[] = "2.0.0";
+    
+    // define root Rs232 module
+    const VALUE root = rb_define_module(rootModName);
+    
+    // define impl ruby class
+    const VALUE impl = rb_define_class_under(root, implClassName, rb_cObject);
+    
+    // define module Constants under Native
+    const VALUE constants = rb_define_module_under(root, constantsModName);
+    
+    // initialize constants in to module Native::Constants
+    Constants_Init(constants);
+    
+    // define native version constant
+    rb_define_const(impl, "NATIVE_VERSION", rb_str_new2(VERSION));
+    
+    rb_define_alloc_func(impl, allocateStruct);
+    
+    rb_define_method(impl, "initialize", RUBY_METHOD_FUNC(initializeStruct), 1);
+    
+    rb_define_method(impl, "baud_rate=", RUBY_METHOD_FUNC(setBaudRate), 1);
+    rb_define_method(impl, "baud_rate", RUBY_METHOD_FUNC(getBaudRate), 0);
+    
+    rb_define_method(impl, "parity=", RUBY_METHOD_FUNC(setParity), 1);
+    rb_define_method(impl, "parity", RUBY_METHOD_FUNC(getParity), 0);
+    
+    rb_define_method(impl, "data_bits=", RUBY_METHOD_FUNC(setDataBits), 1);
+    rb_define_method(impl, "data_bits", RUBY_METHOD_FUNC(getDataBits), 0);
+    
+    rb_define_method(impl, "stop_bits=", RUBY_METHOD_FUNC(setStopBits), 1);
+    rb_define_method(impl, "stop_bits", RUBY_METHOD_FUNC(getStopBits), 0);
+    
+    rb_define_method(impl, "flow_control=", RUBY_METHOD_FUNC(setFlowControl), 1);
+    rb_define_method(impl, "flow_control", RUBY_METHOD_FUNC(getFlowControl), 0);
+    
+    rb_define_method(impl, "timeout=", RUBY_METHOD_FUNC(setTimeout), 1);
+    rb_define_method(impl, "timeout", RUBY_METHOD_FUNC(getTimeout), 0);
+    
+    rb_define_method(impl, "open", RUBY_METHOD_FUNC(openIO), 0);
+    rb_define_method(impl, "close", RUBY_METHOD_FUNC(closeIO), 0);
+    rb_define_method(impl, "flush", RUBY_METHOD_FUNC(flushIO), 0);
+    rb_define_method(impl, "open?", RUBY_METHOD_FUNC(isOpenIO), 0);
+    
+    rb_define_method(impl, "write", RUBY_METHOD_FUNC(writeIO), 1);
+    rb_define_method(impl, "read", RUBY_METHOD_FUNC(readIO), 1);
+    rb_define_method(impl, "available?", RUBY_METHOD_FUNC(bytesAvailableIO), 0);
+    
+    rb_define_method(impl, "line_status", RUBY_METHOD_FUNC(lineStatusIO), 0);
+    rb_define_method(impl, "set_rts", RUBY_METHOD_FUNC(setRtsIO), 1);
+    rb_define_method(impl, "set_dtr", RUBY_METHOD_FUNC(setDtrIO), 1);
 }

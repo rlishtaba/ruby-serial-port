@@ -1,13 +1,16 @@
 require 'mkmf'
 require 'rbconfig'
 
-if ENV['DEBUG_C']
+EXTENSION_NAME = 'rs_232_native'.freeze
+dir_config(EXTENSION_NAME)
+
+if ENV['DEBUG']
   $CFLAGS << ' -DDEBUG'
-  $CFLAGS << ' -g -O'
+  $CFLAGS << ' -g'
   $stdout.puts "compiling in debug mode... flags: #{$CFLAGS}"
 end
 
-dir_config('rs_232')
+$CFLAGS << ' -Wall -g'
 
 $warnflags = '-Wall'
 
@@ -30,6 +33,7 @@ OS = case RbConfig::CONFIG['host_os'].downcase
 
 have_header('ruby.h')
 have_header('stdio.h')
+have_library( 'stdc++' )
 
 if OS == 'windows'
   $VPATH << '$(srcdir)/windows'
@@ -49,10 +53,10 @@ elsif %w(linux darwin).include? OS
   have_header('errno.h')
   have_header('sys/ioctl.h')
 else
-  fail "RS-233 implementation is not tested for this #{OS} platform."
+  fail "RS-233 implementation wasn't been tested for #{OS} platform."
 end
 
-$objs = %w(constants.o port.o initializer.o)
+$objs = %w(Constants.o Port.o Rs232.o).freeze
 
 $CFLAGS += " -DOS_#{OS.upcase}"
 
@@ -62,4 +66,4 @@ Extending with: #{$CFLAGS}
 
 MSG
 
-create_makefile('rs_232')
+create_makefile(EXTENSION_NAME)
