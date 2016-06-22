@@ -73,7 +73,7 @@ module Rs232
     end
 
     def settings
-      {}.tap { |o|
+      {}.tap do |o|
         o[:baud_rate] = @impl.baud_rate
         o[:parity] = @impl.parity
         o[:data_bits] = @impl.data_bits
@@ -81,7 +81,7 @@ module Rs232
         o[:flow_control] = @impl.flow_control
         o[:timeout] = @impl.timeout
         o[:line_status] = @impl.line_status
-      }.freeze
+      end.freeze
     end
 
     def open?
