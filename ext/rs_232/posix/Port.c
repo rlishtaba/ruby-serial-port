@@ -291,7 +291,7 @@ VALUE openIO(VALUE self)
     } else
     {
         port->status = PORT_CLOSED;
-        rb_raise(rb_eRuntimeError, "Unable to open comport: `%s`", port->settings.ComPort);
+        rb_raise(rb_eIOError, "Unable to open comport: `%s`", port->settings.ComPort);
     }
     
     return self;

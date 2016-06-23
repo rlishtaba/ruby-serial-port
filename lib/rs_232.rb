@@ -7,17 +7,27 @@ module Rs232
   #
   # @example
   #
-  #   > port = Rs232.new('/dev/tty.ACM0', baud_rate: 9600)
-  #   #=> <#Rs232::Impl @port='/dev/tty.ACM0'>
+  #   > include Rs232
+  #   > port = new_serial_port('/dev/tty.ACM0', baud_rate: 9600)
+  #   #=> #<Rs232::Impl @port='/dev/tty.ACM0'>
   #   > port.open?
   #   #=> false
-  #   > port.connect
-  #   #=> <#Rs232::Impl @port='/dev/tty.ACM0'>
-  #   port.pending_bytes
+  #   > port.connect # rasing IOError in case of port couldn't be opened.
+  #   #=> #<Rs232::Impl @port='/dev/tty.ACM0'>
+  #   > port.pending_bytes
   #   #=> 15
-  #   port.read(15)
+  #   > port.read(15)
   #   #=> 'Hello, World!!!'
+  #   > port.write("Hi")
+  #   #=> 2
+  #   > port.close
+  #   #=> true
+  #   > port.open?
+  #   #=> false
   #
+  # @param [String] port name
+  # @param [Hash] opts with such keys as: baud_rate, parity, data_bits, stop_bits, flow_control, timeout
+  # @param [Proc] block is a function to apply on constructor finish
   def new_serial_port(port, opts = {}, &block)
     Impl.new(port, opts, &block)
   end
@@ -46,7 +56,6 @@ module Rs232
                    :read,
                    :write,
                    :flush,
-                   :close,
                    :open?,
                    :set_rts,
                    :set_dtr
@@ -58,7 +67,8 @@ module Rs232
       yield self if block_given?
     end
 
-    # @raise RuntimeError in case of open error
+    # @raise IOError in case of port was not open.
+    # @return [Impl] instance
     def connect
       return self if open?
       @impl.open.tap do |io|
@@ -72,6 +82,18 @@ module Rs232
       self
     end
 
+    # @return [Boolean]
+    def close
+      return !open? unless open?
+      0 == @impl.close
+    end
+
+    # @return [Fixnum] representing count of bytes in the buffer
+    def pending_bytes
+      @impl.available?
+    end
+
+    # @return [Hash] of configurations on the OS side.
     def settings
       {}.tap do |o|
         o[:baud_rate] = @impl.baud_rate
@@ -82,15 +104,6 @@ module Rs232
         o[:timeout] = @impl.timeout
         o[:line_status] = @impl.line_status
       end.freeze
-    end
-
-    def open?
-      @impl.open?
-    end
-
-    def close
-      return !open unless open?
-      0 == @impl.close
     end
   end
 

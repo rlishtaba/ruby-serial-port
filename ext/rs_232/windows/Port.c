@@ -77,7 +77,7 @@ void updateSettings(PortDescriptor *port)
 {
     
     if (PORT_OPEN != port->status)
-        rb_raise(rb_eRuntimeError, "Can not set due to comport is not open, status: %d\n", port->status);
+        rb_raise(rb_eIOError, "Can not set due to comport is not open, status: %d\n", port->status);
     
     
     if (port->toBeUpdated & T_BaudRate)
@@ -230,7 +230,7 @@ VALUE openIO(VALUE self)
     {
         
         port->status = PORT_CLOSED;
-        rb_raise(rb_eRuntimeError, "Unable to open comport: `%s`", port->settings.ComPort);
+        rb_raise(rb_eIOError, "Unable to open comport: `%s`", port->settings.ComPort);
         
     } else
     {
