@@ -306,7 +306,7 @@ void setSettings(VALUE self)
     updateSettings(port);
 }
 
-extern "C" void Init_rs_232_native(void)
+void Init_rs_232_native(void)
 {
     const char rootModName[] = "Rs232";
     const char implClassName[] = "Native";
