@@ -167,7 +167,6 @@ void updateSettings(PortDescriptor *port)
 static int queryStatusIO(VALUE self)
 {
     PortDescriptor *port = NULL;
-    
     Data_Get_Struct(self, PortDescriptor, port);
     
     return port->status;
@@ -176,7 +175,7 @@ static int queryStatusIO(VALUE self)
 
 VALUE isOpenIO(VALUE self)
 {
-    return queryStatusIO(self) != PORT_OPEN ? Qtrue : Qfalse;
+    return queryStatusIO(self) != PORT_OPEN ? Qfalse : Qtrue;
 }
 
 
@@ -228,15 +227,12 @@ VALUE openIO(VALUE self)
     
     if (port->fd == INVALID_HANDLE_VALUE)
     {
-        
         port->status = PORT_CLOSED;
         rb_raise(rb_eIOError, "Unable to open comport: `%s`", port->settings.ComPort);
         
-    } else
-    {
-        
+    } else {
         port->status = PORT_OPEN;
-        rb_iv_set(self, "@open", INT2FIX(port->status));
+        rb_iv_set(self, "@open", isOpenIO(self));
         
         GetCommConfig(port->fd, &port->commConfig, &conf_length);
         GetCommState(port->fd, &(port->commConfig.dcb));
@@ -261,7 +257,6 @@ VALUE openIO(VALUE self)
 
 VALUE writeIO(VALUE self, VALUE message)
 {
-    
     int recv;
     int len;
     PortDescriptor *port = NULL;
@@ -275,31 +270,23 @@ VALUE writeIO(VALUE self, VALUE message)
     strcpy(cStr, RSTRING_PTR(message));
     
     if (!WriteFile(port->fd, cStr, len, (LPDWORD)((void *) &recv), NULL))
-    {
-        rb_raise(rb_eIOError, "IO: writing of the %d bytes has been failed", len);
-    }
+        rb_raise(rb_eIOError, "IO: writing of the %d bytes has been failed. Error #%d", len, (int) GetLastError());
     
-    return (INT2FIX(recv));
-    
+    return INT2FIX(recv);
 }
-
 
 VALUE readIO(VALUE self, VALUE rb_int)
 {
-    
-    {
-        Check_Type(rb_int, T_FIXNUM);
-    }
-    
+    Check_Type(rb_int, T_FIXNUM);
     PortDescriptor *port = NULL;
-    
     Data_Get_Struct(self, PortDescriptor, port);
     
     int n;
     int len = FIX2INT(rb_int);
     char buf[len];
     
-    ReadFile(port->fd, &buf, len, (LPDWORD)((void *) &n), NULL);
+    if(!ReadFile(port->fd, &buf, len, (LPDWORD)((void *) &n), NULL))
+        rb_raise(rb_eIOError, "IO: reading of %d bytes has been failed. Error #%d", len, (int) GetLastError());
     
     if (n > 0)
         return rb_str_new(buf, n);
@@ -310,19 +297,17 @@ VALUE readIO(VALUE self, VALUE rb_int)
 
 VALUE closeIO(VALUE self)
 {
-    
     PortDescriptor *port = NULL;
-    
     Data_Get_Struct(self, PortDescriptor, port);
     
-    flushIO(self);
-    port->status = CloseHandle(port->fd);
-    port->fd     = INVALID_HANDLE_VALUE;
+    if (port->fd != INVALID_HANDLE_VALUE) {
+        flushIO(self);
+        port->status = CloseHandle(port->fd);
+        port->fd     = INVALID_HANDLE_VALUE;
+        rb_iv_set(self, "@open", isOpenIO(self));
+    }
     
-    rb_iv_set(self, "@open", INT2FIX(port->status));
-    
-    return INT2FIX(port->status);
-    
+    return !isOpenIO(self);
 }
 
 

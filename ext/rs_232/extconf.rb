@@ -15,25 +15,24 @@ $CFLAGS << ' -Wall -g'
 $warnflags = '-Wall'
 
 OS = case RbConfig::CONFIG['host_os'].downcase
-     when /linux/
-       'linux'
-     when /darwin/
-       'darwin'
-     when /freebsd/
-       'freebsd'
-     when /openbsd/
-       'openbsd'
-     when /sunos|solaris/
-       'solaris'
-     when /mswin|mingw/
-       'windows'
-     else
-       RbConfig::CONFIG['host_os'].downcase
+       when /linux/
+         'linux'
+       when /darwin/
+         'darwin'
+       when /freebsd/
+         'freebsd'
+       when /openbsd/
+         'openbsd'
+       when /sunos|solaris/
+         'solaris'
+       when /mswin|mingw/
+         'windows'
+       else
+         RbConfig::CONFIG['host_os'].downcase
      end
 
 have_header('ruby.h')
 have_header('stdio.h')
-have_library( 'stdc++' )
 
 if OS == 'windows'
   $VPATH << '$(srcdir)/windows'
