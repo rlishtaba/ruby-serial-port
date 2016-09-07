@@ -20,105 +20,26 @@ Or install it yourself as:
 
 ## Usage
 
-See `examples` folder for details.
+You may use this gem directly as a low-level transport layer in your communication module. As an alternative you may check another gem called (ruby-digital-transport)[https://github.com/rlishtaba/ruby-digital-transport] which is kind of transport abstraction porviding unified interface to SerialPort (using this gem), TCP and USB-HID.
 
 ```ruby
-    class SerialPortAdapter
-      include CommPort
-    
-      attr_reader :interface
-      private :interface
-    
-      # constructor with default params
-      # by default port will be configured with:
-      #
-      #  baud_rate = 115200  # BAUD_115200
-      #  data_bits = 8       # DATA_BITS_8
-      #  parity = 0          # PAR_NONE
-      #  stop_bits = 1       # STOP_BITS_1
-      #  flow_control = 0    # FLOW_OFF
-      #
-      #  see other public constants on CommPort namespace
-      #
-      def initialize(port, options = {})
-        @port = port
-        @options = options
-        @open = false
-        @interface = Rs232.new(port)
-        connect
-      end
-    
-      def connect
-        return if open?
-        can_configure_timeout = interface.respond_to?(:connecting_timeout)
-        interface.connecting_timeout = @options.fetch(:connecting_timeout, 60) if can_configure_timeout
-        interface.open
-        configure_interface!
-        @open = open?
-      end
-    
-      def write(bytes)
-        interface.write(bytes)
-      end
-    
-      def close
-        return unless open?
-        flush
-        interface.close
-        @open = open?
-        !open?
-      end
-    
-      def flush
-        interface.flush
-      end
-    
-      def open?
-        interface && !interface.closed?
-      end
-    
-      def recv(count)
-        array = []
-        chunk = read_io_until(count, count)
-        array.push chunk if chunk
-        array.empty? ? nil : array.join
-      end
-    
-      def recv_nonblock(count)
-        array = []
-        chunks_count = (count == -1) ? interface.available? : count
-        chunks_count.times do
-          chunk = interface.read(1)
-          array.push chunk if chunk
-        end
-        array.empty? ? nil : array.join
-      end
-    
-      def read(count, blocking = false)
-        blocking ? recv(count) : recv_nonblock(count)
-      end
-    
-      private
-    
-      def configure_interface!
-        interface.baud_rate = @options.fetch(:baud_rate, BAUD_115200).to_i
-        interface.data_bits = @options.fetch(:data_bits, DATA_BITS_8).to_i
-        interface.parity = @options.fetch(:parity, PAR_NONE).to_i
-        interface.stop_bits = @options.fetch(:stop_bits, STOP_BITS_1).to_i
-        interface.flow_control = @options.fetch(:flow_control, FLOW_OFF).to_i
-      end
-    
-      def block_io_until(count, up_to)
-        up_to -= 1 while interface.available? < count && up_to > 0
-        up_to > 0
-      end
-    
-      def read_io_until(count, up_to)
-        sleep 0.001 until block_io_until(count, up_to)
-        read(count)
-      end
-    end
-
+   > include Rs232
+   > port = new_serial_port('/dev/tty.ACM0', baud_rate: 9600)
+   #=> #<Rs232::Impl @port='/dev/tty.ACM0'>
+   > port.open?
+   #=> false
+   > port.connect # rasing IOError in case of port couldn't be opened.
+   #=> #<Rs232::Impl @port='/dev/tty.ACM0'> 
+   > port.pending_bytes
+   #=> 15
+   > port.read(15)
+   #=> 'Hello, World!!!'
+   > port.write("Hi")
+   #=> 2
+   > port.close
+   #=> true
+   > port.open?
+   #=> false
 ```
 
 ## Contributing

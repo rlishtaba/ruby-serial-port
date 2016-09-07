@@ -1,3 +1,3 @@
 module Rs232
-  VERSION = '2.3.1'
+  VERSION = '3.0.0.pre5'.freeze
 end

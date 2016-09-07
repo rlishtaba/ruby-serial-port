@@ -18,6 +18,6 @@ module Fixtures
   end
 
   def fixtures_path
-    Pathname(absolute_fixture_path '')
+    Pathname(absolute_fixture_path(''))
   end
 end
