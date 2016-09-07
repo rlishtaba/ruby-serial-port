@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-See `examples` folder for details.
+You may use this gem directly as a low-level transport layer in your communication module. As an alternative you may check another gem called (ruby-digital-transport)[https://github.com/rlishtaba/ruby-digital-transport] which is kind of transport abstraction porviding unified interface to SerialPort (using this gem), TCP and USB-HID.
 
 ```ruby
    > include Rs232
